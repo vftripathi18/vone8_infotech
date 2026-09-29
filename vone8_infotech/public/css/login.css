@@ -1,0 +1,519 @@
+/* =========================================================
+   VONE8 INFOTECH - PREMIUM LOGIN (Frappe v15)
+   Colors come from --v8-primary / --v8-bg (set by JS from
+   Vone8 UI Settings). Everything else derives from them.
+   ========================================================= */
+
+:root {
+    --v8-primary: #2563eb;
+    --v8-bg: #f4f6fb;
+
+    --v8-primary-dark: color-mix(in srgb, var(--v8-primary) 78%, #000);
+    --v8-primary-deep: color-mix(in srgb, var(--v8-primary) 45%, #050816);
+    --v8-primary-soft: color-mix(in srgb, var(--v8-primary) 12%, transparent);
+    --v8-primary-ring: color-mix(in srgb, var(--v8-primary) 24%, transparent);
+    --v8-background: var(--v8-bg);
+    --v8-surface: #ffffff;
+    --v8-text: #0f172a;
+    --v8-muted: #5b6577;
+    --v8-border: #dfe4ee;
+    --v8-radius: 14px;
+    --v8-shadow: 0 30px 80px -20px rgba(15, 23, 42, .22), 0 8px 24px rgba(15, 23, 42, .06);
+}
+
+body { background: var(--v8-background) !important; }
+body:has(.vone8-login-page) .navbar,
+body:has(.vone8-login-page) footer.web-footer { display: none !important; }
+body:has(.vone8-login-page) { overflow-x: hidden; }
+body:has(.vone8-login-page) .page-content-wrapper,
+body:has(.vone8-login-page) main.container { max-width: none; padding: 0; margin: 0; }
+
+/* ---------- Page ---------- */
+.vone8-login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    color: var(--v8-text);
+    background:
+        radial-gradient(60% 50% at 10% 0%, var(--v8-primary-soft), transparent 70%),
+        radial-gradient(50% 50% at 100% 100%, var(--v8-primary-soft), transparent 70%),
+        var(--v8-background);
+}
+
+.vone8-bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(70px);
+    opacity: .5;
+    background: var(--v8-primary);
+    will-change: transform;
+}
+.orb-a { width: 380px; height: 380px; top: -140px; left: -120px; opacity: .16; animation: v8Drift 22s ease-in-out infinite; }
+.orb-b { width: 460px; height: 460px; bottom: -200px; right: -140px; opacity: .13; animation: v8Drift 28s ease-in-out infinite reverse; }
+
+/* ---------- Card ---------- */
+.vone8-login-wrapper {
+    width: min(1120px, 100%);
+    min-height: 660px;
+    display: grid;
+    grid-template-columns: 1.08fr .92fr;
+    position: relative;
+    z-index: 2;
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--v8-surface);
+    border: 1px solid rgba(255, 255, 255, .8);
+    box-shadow: var(--v8-shadow);
+    animation: v8Appear .7s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+/* ---------- Brand panel ---------- */
+.vone8-brand-panel {
+    position: relative;
+    overflow: hidden;
+    padding: 56px 56px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #fff;
+    isolation: isolate;
+    background:
+        radial-gradient(90% 70% at 0% 0%, color-mix(in srgb, var(--v8-primary) 100%, #fff 12%), transparent 65%),
+        linear-gradient(160deg, var(--v8-primary) 0%, var(--v8-primary-dark) 55%, var(--v8-primary-deep) 100%);
+}
+
+.vone8-brand-panel::after {
+    /* right edge blends into the login side */
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 1px;
+    background: linear-gradient(transparent, rgba(255, 255, 255, .35), transparent);
+    z-index: 1;
+}
+
+.vone8-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .07) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(75% 65% at 30% 35%, #000, transparent 100%);
+    mask-image: radial-gradient(75% 65% at 30% 35%, #000, transparent 100%);
+    animation: v8Grid 40s linear infinite;
+}
+
+.vone8-orb {
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(40px);
+    will-change: transform;
+}
+.vone8-orb.one { width: 320px; height: 320px; right: -110px; top: -90px; background: rgba(255, 255, 255, .22); animation: v8Drift 18s ease-in-out infinite; }
+.vone8-orb.two { width: 280px; height: 280px; left: -90px; bottom: -80px; background: rgba(255, 255, 255, .12); animation: v8Drift 24s ease-in-out infinite reverse; }
+
+.vone8-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .55);
+    z-index: -1;
+    animation: v8Float 6s ease-in-out infinite;
+}
+.vone8-dot.one { top: 22%; right: 16%; }
+.vone8-dot.two { top: 52%; right: 8%; animation-delay: 1.5s; }
+.vone8-dot.three { bottom: 24%; left: 46%; animation-delay: 3s; }
+
+.vone8-brand-content { position: relative; }
+
+.vone8-logo-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 76px;
+    min-height: 76px;
+    max-width: 600px    ;
+    padding: 14px 22px;
+    border-radius: 22px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, .96);
+    border: 1px solid rgba(255, 255, 255, .6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18), inset 0 1px 0 #fff;
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+.vone8-logo-wrapper:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .25), 0 0 0 6px rgba(255, 255, 255, .12);
+}
+
+.vone8-client-logo {
+    display: none;
+    width: auto;
+    height: auto;
+    max-width: 437px;
+    max-height:138px;
+    object-fit: contain;
+}
+.vone8-logo-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--v8-primary-dark);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+.vone8-brand-name {
+    margin: 0;
+    color: #fff !important;
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1.05;
+    font-weight: 750;
+    letter-spacing: -1.6px;
+    text-wrap: balance;
+}
+.vone8-brand-description {
+    margin: 20px 0 0;
+    max-width: 420px;
+    color: rgba(255, 255, 255, .8);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.vone8-features { margin-top: 34px; }
+.vone8-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 12px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, .92);
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .14);
+    backdrop-filter: blur(8px);
+    transition: transform .25s ease, background .25s ease;
+}
+.vone8-feature:hover { transform: translateX(4px); background: rgba(255, 255, 255, .14); }
+.vone8-feature-icon {
+    width: 24px;
+    height: 24px;
+    flex: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background: rgba(255, 255, 255, .2);
+    transition: transform .25s ease;
+}
+.vone8-feature:hover .vone8-feature-icon { transform: scale(1.12) rotate(-6deg); }
+
+.vone8-brand-footer {
+    position: relative;
+    margin-top: 32px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .7);
+}
+
+/* ---------- Login panel ---------- */
+.vone8-login-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 64px;
+    background: linear-gradient(180deg, #fff, #fbfcfe);
+}
+.vone8-login-inner { width: 100%; max-width: 400px; }
+
+.vone8-login-header { margin-bottom: 28px; }
+.vone8-login-heading {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -.8px;
+    color: var(--v8-text);
+}
+.vone8-login-subtitle { margin: 8px 0 0; font-size: 14px; color: var(--v8-muted); }
+
+/* Reset Frappe card chrome */
+.vone8-login-inner .login-content.page-card,
+.vone8-login-inner .page-card {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    max-width: none !important;
+}
+.vone8-login-inner .page-card-body { padding: 0 !important; }
+.vone8-login-inner form { margin: 0; }
+
+/* Section titles (forgot / email link / signup) */
+.vone8-logo-area h3 {
+    margin: 0 0 22px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.5px;
+    color: var(--v8-text);
+}
+
+/* ---------- Inputs ---------- */
+.vone8-field { position: relative; margin-bottom: 18px; }
+.vone8-login-inner .form-label,
+.vone8-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2b3445;
+}
+
+.vone8-login-inner .form-control {
+    width: 100%;
+    height: 52px;
+    padding: 0 16px !important;
+    font-size: 14px;
+    color: var(--v8-text);
+    background: #f8f9fc !important;
+    border: 1px solid var(--v8-border) !important;
+    border-radius: var(--v8-radius) !important;
+    box-shadow: 0 1px 0 rgba(15, 23, 42, .02) !important;
+    transition: border-color .25s ease, box-shadow .25s ease, background .25s ease, transform .25s ease;
+}
+.vone8-login-inner .form-control::placeholder { color: #8a94a6; }
+.vone8-login-inner .form-control:hover {
+    background: #fff !important;
+    border-color: #c4ccdb !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, .06) !important;
+}
+.vone8-login-inner .form-control:focus,
+.vone8-login-inner .form-control:focus-visible {
+    background: #fff !important;
+    border-color: var(--v8-primary) !important;
+    box-shadow: 0 0 0 4px var(--v8-primary-ring), 0 6px 18px rgba(15, 23, 42, .08) !important;
+    outline: none !important;
+    transform: translateY(-1px);
+}
+
+/* Password (Frappe toggle-password kept) */
+.vone8-password { position: relative; }
+.vone8-password .form-control { padding-right: 68px !important; }
+.vone8-password .toggle-password {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--v8-muted);
+    transition: color .2s ease, background .2s ease;
+}
+.vone8-password .toggle-password:hover { color: var(--v8-primary); background: var(--v8-primary-soft); }
+
+/* Forgot */
+.vone8-forgot { text-align: right; margin: -4px 0 20px; }
+.vone8-forgot a,
+.vone8-back-link a {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--v8-primary);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: color .2s ease;
+}
+.vone8-forgot a:hover,
+.vone8-back-link a:hover { color: var(--v8-primary-dark); text-decoration: underline; text-underline-offset: 3px; }
+.vone8-back-link { margin: 16px 0 0; text-align: center; }
+
+/* ---------- Buttons ---------- */
+.vone8-login-inner .btn { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease, color .25s ease, filter .25s ease; }
+
+.vone8-login-inner .btn-primary,
+.vone8-login-inner .btn-login:not(.btn-ldap-login) {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 52px;
+    border: 0 !important;
+    border-radius: var(--v8-radius) !important;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .1px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--v8-primary) 100%, #fff 8%), var(--v8-primary-dark)) !important;
+    box-shadow: 0 10px 22px -8px var(--v8-primary), inset 0 1px 0 rgba(255, 255, 255, .25) !important;
+}
+.vone8-login-inner .btn-primary::before,
+.vone8-login-inner .btn-login:not(.btn-ldap-login)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 50%;
+    height: 100%;
+    transform: skewX(-20deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .28), transparent);
+    transition: left .7s ease;
+}
+.vone8-login-inner .btn-primary:hover,
+.vone8-login-inner .btn-login:not(.btn-ldap-login):hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0 16px 30px -8px var(--v8-primary), inset 0 1px 0 rgba(255, 255, 255, .3) !important;
+}
+.vone8-login-inner .btn-primary:hover::before,
+.vone8-login-inner .btn-login:not(.btn-ldap-login):hover::before { left: 140%; }
+.vone8-login-inner .btn-primary:active,
+.vone8-login-inner .btn-login:not(.btn-ldap-login):active { transform: translateY(1px) scale(.995); }
+.vone8-login-inner .btn:focus-visible,
+.vone8-login-inner a:focus-visible,
+.vone8-login-inner .toggle-password:focus-visible {
+    outline: 3px solid var(--v8-primary-ring) !important;
+    outline-offset: 2px !important;
+}
+
+.vone8-actions { display: flex; flex-direction: column; gap: 10px; }
+.vone8-actions .btn-ldap-login { height: 48px; }
+
+/* Secondary buttons: supplier, LDAP, social, email link, cloud */
+.vone8-supplier-registration { margin-top: 12px; }
+.vone8-supplier-registration .supplier-registration-btn,
+.vone8-login-inner .btn-login-option,
+.vone8-login-inner .btn-ldap-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2b3445 !important;
+    background: #fff !important;
+    border: 1px solid var(--v8-border) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04) !important;
+}
+.vone8-supplier-registration .supplier-registration-btn:hover,
+.vone8-login-inner .btn-login-option:hover,
+.vone8-login-inner .btn-ldap-login:hover {
+    transform: translateY(-2px);
+    color: var(--v8-primary) !important;
+    border-color: var(--v8-primary) !important;
+    box-shadow: 0 10px 22px -10px var(--v8-primary) !important;
+}
+.vone8-supplier-registration .supplier-registration-btn:active,
+.vone8-login-inner .btn-login-option:active { transform: translateY(0); }
+
+/* Social / option list */
+.social-logins,
+.social-login-buttons,
+.login-with-email-link { margin: 0; }
+.login-button-wrapper { margin-bottom: 10px; }
+.login-button-wrapper:last-child { margin-bottom: 0; }
+.vone8-login-inner .btn-login-option svg,
+.vone8-login-inner .btn-login-option img { width: 18px; height: 18px; flex: none; object-fit: contain; }
+.vone8-login-inner .btn-login-option .login-icon-container,
+.vone8-login-inner .btn-login-option .icon { display: inline-flex; align-items: center; }
+
+.vone8-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 0 18px;
+    font-size: 12px;
+    color: #7d879a;
+}
+.vone8-divider::before,
+.vone8-divider::after { content: ""; flex: 1; height: 1px; background: var(--v8-border); }
+
+/* Signup */
+.vone8-signup { margin-top: 24px; text-align: center; font-size: 13px; color: var(--v8-muted); }
+.vone8-signup a { margin-left: 4px; font-weight: 700; color: var(--v8-primary); text-decoration: none; transition: color .2s ease; }
+.vone8-signup a:hover { color: var(--v8-primary-dark); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Frappe signup template + alerts */
+.vone8-login-inner .for-signup .page-card-head,
+.vone8-login-inner .for-signup h4 { margin-bottom: 14px; }
+.vone8-login-inner .text-muted { color: var(--v8-muted) !important; }
+.vone8-login-inner .indicator.gray { font-size: 13px; font-weight: 600; }
+
+.vone8-footer { margin-top: 34px; text-align: center; font-size: 12px; color: #7d879a; }
+
+/* ---------- Animations ---------- */
+@keyframes v8Appear { from { opacity: 0; transform: translateY(16px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes v8Drift { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(28px, 22px, 0); } }
+@keyframes v8Float { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(-12px); opacity: 1; } }
+@keyframes v8Grid { from { background-position: 0 0, 0 0; } to { background-position: 44px 44px, 44px 44px; } }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+    .vone8-brand-panel { padding: 44px 36px 36px; }
+    .vone8-login-panel { padding: 40px 36px; }
+}
+
+@media (max-width: 860px) {
+    .vone8-login-page { padding: 16px; align-items: flex-start; }
+    .vone8-login-wrapper { grid-template-columns: 1fr; min-height: 0; border-radius: 22px; }
+
+    /* Brand panel becomes a compact banner; nothing functional is hidden */
+    .vone8-brand-panel { padding: 24px 24px 22px; }
+    .vone8-brand-content { display: flex; align-items: center; gap: 16px; }
+    .vone8-logo-wrapper { min-width: 56px; min-height: 56px; padding: 8px 14px; border-radius: 16px; margin: 0; flex: none; }
+    .vone8-client-logo { max-width: 437px; max-height: 138px; }
+    .vone8-brand-name { font-size: 24px; letter-spacing: -.6px; }
+    .vone8-brand-description,
+    .vone8-features,
+    .vone8-brand-footer,
+    .vone8-dot { display: none !important; }
+
+    .vone8-login-panel { padding: 32px 24px 28px; }
+    .vone8-login-inner { max-width: 440px; }
+}
+
+@media (max-width: 480px) {
+    .vone8-login-page { padding: 0; }
+    .vone8-login-wrapper { border-radius: 0; min-height: 100vh; box-shadow: none; border: 0; }
+    .vone8-login-panel { padding: 28px 20px 24px; align-items: flex-start; }
+    .vone8-login-heading { font-size: 26px; }
+}
+
+@media (max-width: 340px) {
+    .vone8-brand-name { font-size: 20px; }
+    .vone8-login-panel { padding: 24px 16px; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .vone8-login-wrapper,
+    .vone8-bg-orb,
+    .vone8-orb,
+    .vone8-dot,
+    .vone8-grid { animation: none !important; }
+    .vone8-login-inner .btn,
+    .vone8-login-inner .form-control,
+    .vone8-logo-wrapper,
+    .vone8-feature { transition: none !important; }
+    .vone8-login-inner .btn::before { display: none; }
+}

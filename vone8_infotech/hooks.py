@@ -5,6 +5,16 @@ app_description = "for custom developments"
 app_email = "mstripathi100@gmail.com"
 app_license = "mit"
 
+
+website_context = {
+    "favicon": "/assets/vone8_infotech/images/favicon.png"
+}
+
+override_website_path = "vone8_infotech.templates.pages"
+
+website_route_rules = [
+    {"from_route": "/login", "to_route": "login"}
+]
 # Apps
 # ------------------
 
